@@ -11,7 +11,7 @@ A part of TinyPKI project, with the intention to facilitate higher adoption of m
 This library is distributed in two formats.
 
 ### ESM library
-Suitable for SPA frameworks (like React.js), available on npmjs.com:
+Suitable for SPA frameworks (like React.js), available on NPM Registry as [@icedevml/tinypki-client-side-cert-req](https://www.npmjs.com/package/@icedevml/tinypki-client-side-cert-req).
 
 ```bash
 npm install --save @icedevml/tinypki-client-side-cert-req

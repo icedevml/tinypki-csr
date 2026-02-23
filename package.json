@@ -1,6 +1,6 @@
 {
   "name": "@icedevml/tinypki-client-side-cert-req",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "TinyPKI ClientSideCertReq Library",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/icedevml/tinypki-client-side-cert-req/issues"
   },
-  "homepage": "https://github.com/icedevml/tinypki-client-side-cert-req?tab=readme-ov-file#readme",
+  "homepage": "https://github.com/icedevml/tinypki-client-side-cert-req",
   "exports": {
     ".": {
       "import": "./dist/index.js",
