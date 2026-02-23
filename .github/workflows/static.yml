@@ -1,0 +1,65 @@
+name: Deploy Pages
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  release:
+    types: [ "created" ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Use Node.js
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6
+        with:
+          node-version: 24.x
+
+      - name: Install corepack
+        run: |
+          npm install -g corepack@0.34.6
+
+      - name: Enable corepack
+        run: |
+          corepack enable
+
+      - name: Install dependencies
+        run: |
+          yarn
+
+      - name: Run build
+        run: |
+          yarn build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+
+      - name: Fix lib references
+        run: |
+          cd demo/
+          sed -i 's#../dist/tinypki-client-side-cert-req-lib.js#tinypki.js#' *.html
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: 'demo/'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
