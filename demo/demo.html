@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TinyPKI's clientSideCertReqLib Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        textarea {
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="errorModalLabel">JavaScript Error</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="errorText" style="font-family: monospace;"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4 mb-4">
+    <h1>TinyPKI's clientSideCertReqLib Demo</h1>
+    <p>
+        A demo for a purely client-side single-file JS library that allows to locally generate
+        CSRs (Certificate Signing Requests) using Web Crypto API key pairs.
+    </p>
+    <p>
+        After the CA issues the certificate, this lib also allows to assemble the PKCS#12 file containing the
+        certificate chain and the private key, and to initiate a file download in the local browser, so that the user
+        has an easy way of importing the certificate to their local browser or system.
+    </p>
+    <div class="mt-4">
+        <h2>Generate CSR</h2>
+        <h4>Input</h4>
+        <div class="mb-3">
+            <label for="csrAlgorithm" class="form-label">Key algorithm</label>
+            <select class="form-select" id="csrAlgorithm">
+                <option disabled style="font-weight: bold;">Most common</option>
+                <option value="ECDSA/P-256/SHA-256">ECDSA/P-256/SHA-256</option>
+                <option value="RSASSA-PKCS1-v1_5/2048/SHA-256">RSASSA-PKCS1-v1_5/2048/SHA-256</option>
+                <option value="RSASSA-PKCS1-v1_5/4096/SHA-256">RSASSA-PKCS1-v1_5/4096/SHA-256</option>
+                <option disabled style="font-weight: bold;">Other</option>
+                <option value="ECDSA/P-384/SHA-384">ECDSA/P-384/SHA-384</option>
+                <option value="Ed25519">Ed25519</option>
+                <option value="RSASSA-PKCS1-v1_5/4096/SHA-512">RSASSA-PKCS1-v1_5/4096/SHA-512</option>
+                <option value="RSASSA-PKCS1-v1_5/3072/SHA-256">RSASSA-PKCS1-v1_5/3072/SHA-256</option>
+                <option value="RSA-PSS/4096/SHA-256">RSA-PSS/4096/SHA-256</option>
+                <option value="RSA-PSS/4096/SHA-512">RSA-PSS/4096/SHA-512</option>
+                <option value="RSA-PSS/3072/SHA-256">RSA-PSS/3072/SHA-256</option>
+                <option value="RSA-PSS/2048/SHA-256">RSA-PSS/2048/SHA-256</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" id="btnCSR" onClick="wrapHandleErrors(() => btnGenerateCSR());">Generate CSR</button>
+        </div>
+
+        <h4>Output</h4>
+        <div class="mb-3">
+            <label for="csrPrivateKey" class="form-label">Private key (Base64-encoded DER)</label>
+            <textarea class="form-control" id="csrPrivateKey" rows="5" readonly></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="csrCSRPEM" class="form-label">CSR (PEM)</label>
+            <textarea class="form-control" id="csrCSRPEM" rows="5" readonly></textarea>
+        </div>
+    </div>
+    <div class="mt-4 mb-5">
+        <h2>Generate PKCS12</h2>
+        <h4>Input</h4>
+        <div class="mb-3">
+            <label for="certChainPEM" class="form-label">Signed certificate chain (PEM)</label>
+            <textarea class="form-control" id="certChainPEM" rows="5"></textarea>
+            <button class="btn btn-secondary btn-sm" id="btnSelfSignCert" onClick="wrapHandleErrors(() => btnSelfSignCertificate());" disabled>
+                Generate self-signed certificate
+            </button>
+            <p class="text-muted mt-2">
+                Either just the signed leaf certificate, or the certificate chain. When providing a chain,
+                the leaf certificate must be listed as the first one. In all cases, use the PEM format.
+            </p>
+        </div>
+        <div class="mb-3">
+            <div class="mb-3">
+                <label for="pkcs12Algorithm" class="form-label">PKCS#12 Algorithm</label>
+                <select class="form-select" id="pkcs12Algorithm">
+                    <option value="3des">3DES (best compatibility)</option>
+                    <option value="aes128">AES-128</option>
+                    <option value="aes192">AES-192</option>
+                    <option value="aes256">AES-256 (strongest)</option>
+                </select>
+                <p class="text-muted mt-2">
+                    It is discouraged to move away from the default "3DES" setting. Many modern operating systems
+                    still don't support any more sophisticated algorithms for importing PKCS#12 containers
+                    through their standard GUI. Weak encryption is not a big deal since the PKCS#12 is supposed
+                    to be installed on the same device where it was generated. Make sure to set reasonably
+                    strong password to cover for the case when the imported PKCS#12 is left retained on the user's
+                    hard disk.
+                </p>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="mb-3">
+                <label for="pkcs12Password" class="form-label">PKCS#12 Password</label>
+                <input type="text" class="form-control" id="pkcs12Password" value="demodemo123!">
+            </div>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" id="btnPKCS12" onClick="wrapHandleErrors(() => btnGeneratePKCS12());" disabled>
+                Generate and download PKCS#12
+            </button>
+        </div>
+
+        <h4>Output</h4>
+        <div class="mb-3">
+            <label for="pkcs12B64" class="form-label">Generated PKCS#12 container (Base64-encoded DER)</label>
+            <textarea class="form-control" id="pkcs12B64" rows="5" readonly></textarea>
+        </div>
+    </div>
+    <hr>
+    <div class="mt-2">
+        <p class="text-muted">
+            Powered by <a href="https://github.com/icedevml/tinypki" style="text-decoration: none;">TinyPKI</a>.
+        </p>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+<script src="../dist/tinypki-client-side-cert-req-lib.js"></script>
+<script src="demo.js"></script>
+</body>
+</html>

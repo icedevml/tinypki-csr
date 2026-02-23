@@ -1,0 +1,38 @@
+{
+  "name": "@icedevml/tinypki-client-side-cert-req",
+  "version": "0.4.0",
+  "description": "TinyPKI ClientSideCertReq Library",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "dependencies": {
+    "@peculiar/x509": "1.14.3",
+    "buffer": "^6.0.3",
+    "node-forge": "1.3.3",
+    "pkijs": "3.3.3"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@types/node-forge": "^1.3.14",
+    "rollup": "^4.59.0",
+    "rollup-plugin-dts": "^6.3.0",
+    "rollup-plugin-esbuild-minify": "^1.3.0",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "typescript": "^5.5.3"
+  },
+  "packageManager": "yarn@4.12.0"
+}

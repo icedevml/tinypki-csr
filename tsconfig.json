@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "importHelpers": true,
+    "noImplicitOverride": true,
+    "noErrorTruncation": true,
+    "experimentalDecorators": true
+  },
+  "exclude": [
+    "dist/"
+  ]
+}
