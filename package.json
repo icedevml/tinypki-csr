@@ -2,10 +2,16 @@
   "name": "@icedevml/tinypki-client-side-cert-req",
   "version": "0.4.1",
   "description": "TinyPKI ClientSideCertReq Library",
-  "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/types/index.d.ts",
+  "repository": "https://github.com/icedevml/tinypki-client-side-cert-req",
+  "author": "Michal Leszczynski ml@icedev.pl (https://github.com/icedevml)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/icedevml/tinypki-client-side-cert-req/issues"
+  },
+  "homepage": "https://github.com/icedevml/tinypki-client-side-cert-req?tab=readme-ov-file#readme",
   "exports": {
     ".": {
       "import": "./dist/index.js",
