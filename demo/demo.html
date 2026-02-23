@@ -3,12 +3,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TinyPKI's clientSideCertReqLib Demo</title>
+    <title>TinyPKI's ClientSideCertReq Library Demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <style>
         textarea {
             font-family: monospace;
+        }
+
+        .option-hdr {
+            font-weight: bold;
         }
     </style>
 </head>
@@ -28,7 +32,7 @@
     </div>
 </div>
 <div class="container mt-4 mb-4">
-    <h1>TinyPKI's clientSideCertReqLib Demo</h1>
+    <h1>TinyPKI's ClientSideCertReq Library Demo</h1>
     <p>
         A demo for a purely client-side single-file JS library that allows to locally generate
         CSRs (Certificate Signing Requests) using Web Crypto API key pairs.
@@ -44,11 +48,11 @@
         <div class="mb-3">
             <label for="csrAlgorithm" class="form-label">Key algorithm</label>
             <select class="form-select" id="csrAlgorithm">
-                <option disabled style="font-weight: bold;">Most common</option>
+                <option disabled class="option-hdr">Most common</option>
                 <option value="ECDSA/P-256/SHA-256">ECDSA/P-256/SHA-256</option>
                 <option value="RSASSA-PKCS1-v1_5/2048/SHA-256">RSASSA-PKCS1-v1_5/2048/SHA-256</option>
                 <option value="RSASSA-PKCS1-v1_5/4096/SHA-256">RSASSA-PKCS1-v1_5/4096/SHA-256</option>
-                <option disabled style="font-weight: bold;">Other</option>
+                <option disabled class="option-hdr">Other</option>
                 <option value="ECDSA/P-384/SHA-384">ECDSA/P-384/SHA-384</option>
                 <option value="Ed25519">Ed25519</option>
                 <option value="RSASSA-PKCS1-v1_5/4096/SHA-512">RSASSA-PKCS1-v1_5/4096/SHA-512</option>
