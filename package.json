@@ -1,6 +1,6 @@
 {
   "name": "@icedevml/tinypki-client-side-cert-req",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "TinyPKI ClientSideCertReq Library",
   "license": "MIT",
   "main": "dist/index.js",
