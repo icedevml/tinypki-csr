@@ -26,7 +26,7 @@ Download: **[tinypki-client-side-cert-req-lib.js](https://github.com/icedevml/ti
 
 ## Usage
 
-See `demo/` directory for example usage.
+See [`demo/`](https://github.com/icedevml/tinypki-client-side-cert-req/tree/master/demo) directory for example usage.
 
 ## Manual building
 
