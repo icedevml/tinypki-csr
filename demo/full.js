@@ -20,8 +20,8 @@ async function demoGenerateCSR(alg) {
     lastKeys = keys;
     lastAlg = alg;
 
-    document.getElementById("csrPrivateKey").value = privKeyDERB64;
-    document.getElementById("csrCSRPEM").value = csrPEM;
+    document.getElementById("privateKeyDERB64").value = privKeyDERB64;
+    document.getElementById("csrPEM").value = csrPEM;
     document.getElementById("btnSelfSignCert").disabled = false;
 }
 
@@ -64,12 +64,17 @@ async function btnSelfSignCertificate() {
         keys: lastKeys,
     });
 
+    // importing key back from a string
+    //   const privKey = await crypto.subtle.importKey("pkcs8", TinyPKIClientSideCertReqLib.base64ToBuffer(privKeyDERB64), alg, true, ["sign"]);
+    // don't store an unencrypted private key in cookies/local storage, that might be a security risk for the user
+    // the best idea is to perform the entire CSR generation and PKCS#12 bundling process in a single script, without a page reload
+
     document.getElementById("certChainPEM").value = certChainPEM;
     document.getElementById("btnPKCS12").disabled = false;
 }
 
 async function btnGeneratePKCS12() {
-    const privKeyDERB64 = document.getElementById("csrPrivateKey").value;
+    const privKeyDERB64 = document.getElementById("privateKeyDERB64").value;
     const certChainPEM = document.getElementById("certChainPEM").value;
     const pkcs12Password = document.getElementById("pkcs12Password").value;
     const pkcs12Algorithm = document.getElementById("pkcs12Algorithm").value;

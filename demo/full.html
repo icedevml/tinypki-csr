@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TinyPKI's ClientSideCertReq Library Demo</title>
+    <title>TinyPKI's ClientSideCertReq Library Demo (All Features)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <style>
@@ -32,7 +32,7 @@
     </div>
 </div>
 <div class="container mt-4 mb-4">
-    <h1>TinyPKI's ClientSideCertReq Library Demo</h1>
+    <h1>TinyPKI's ClientSideCertReq Library Demo (All Features)</h1>
     <p>
         A demo for a purely client-side single-file JS library that allows to locally generate
         CSRs (Certificate Signing Requests) using Web Crypto API key pairs.
@@ -69,16 +69,16 @@
 
         <h4>Output</h4>
         <div class="mb-3">
-            <label for="csrPrivateKey" class="form-label">Private key (Base64-encoded DER)</label>
-            <textarea class="form-control" id="csrPrivateKey" rows="5" readonly></textarea>
+            <label for="privateKeyDERB64" class="form-label">Private key (Base64-encoded DER)</label>
+            <textarea class="form-control" id="privateKeyDERB64" rows="5" readonly></textarea>
         </div>
         <div class="mb-3">
-            <label for="csrCSRPEM" class="form-label">CSR (PEM)</label>
-            <textarea class="form-control" id="csrCSRPEM" rows="5" readonly></textarea>
+            <label for="csrPEM" class="form-label">CSR (PEM)</label>
+            <textarea class="form-control" id="csrPEM" rows="5" readonly></textarea>
         </div>
     </div>
     <div class="mt-4 mb-5">
-        <h2>Generate PKCS12</h2>
+        <h2>Generate PKCS#12</h2>
         <h4>Input</h4>
         <div class="mb-3">
             <label for="certChainPEM" class="form-label">Signed certificate chain (PEM)</label>
@@ -139,6 +139,6 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
 <script src="../dist/tinypki-client-side-cert-req-lib.js"></script>
-<script src="demo.js"></script>
+<script src="full.js"></script>
 </body>
 </html>

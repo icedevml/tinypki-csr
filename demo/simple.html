@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TinyPKI's ClientSideCertReq Library Demo (Simple)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        textarea {
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4 mb-4">
+    <h1>TinyPKI's ClientSideCertReq Library Demo (Simple)</h1>
+    <div class="mt-4">
+        <h2>Generate CSR</h2>
+        <div class="mb-3">
+            <label for="privateKeyDERB64" class="form-label">Private key (Base64-encoded DER)</label>
+            <textarea class="form-control" id="privateKeyDERB64" rows="5"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="csrPEM" class="form-label">CSR (PEM)</label>
+            <textarea class="form-control" id="csrPEM" rows="5"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="makeCSR();">Generate private key and CSR</button>
+    </div>
+    <div class="mt-4">
+        <h2>Generate PKCS#12</h2>
+        <div class="mb-3">
+            <label for="certChainPEM" class="form-label">Signed certificate chain (PEM)</label>
+            <textarea class="form-control" id="certChainPEM" rows="5"></textarea>
+        </div>
+        <p class="text-muted">The PKCS#12 password is: <code>demodemo123!</code> (3DES encryption)</p>
+        <button class="btn btn-primary" onclick="makePKCS12();">Generate PKCS#12</button>
+    </div>
+    <script>
+        document.getElementById("privateKeyDERB64").value = "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgCFZEBgy0hHKUF+3offDfDV2m8YwVN61oFUqoHn5CC1ahRANCAARL0OoVbMewCttodTqGBMfP3hOf5Is6jdFsMyeIFtBzoqXWa0AmWEjk5PZVZ32rI68OsCo3PMMXGjkiiJpFXtlH";
+        document.getElementById("csrPEM").value = "-----BEGIN CERTIFICATE REQUEST-----\n" +
+            "MIIBGTCBwAIBADAWMRQwEgYDVQQDEwtleGFtcGxlLmNvbTBZMBMGByqGSM49AgEG\n" +
+            "CCqGSM49AwEHA0IABEvQ6hVsx7AK22h1OoYEx8/eE5/kizqN0WwzJ4gW0HOipdZr\n" +
+            "QCZYSOTk9lVnfasjrw6wKjc8wxcaOSKImkVe2UegSDBGBgkqhkiG9w0BCQ4xOTA3\n" +
+            "MAsGA1UdDwQEAwIFoDAoBgNVHREEITAfgRB0ZXN0QGV4YW1wbGUuY29tggtleGFt\n" +
+            "cGxlLmNvbTAKBggqhkjOPQQDAgNIADBFAiEAgRMqEGBAcxTbpaitISRj5hcGUvTl\n" +
+            "etEmZyoOWeguKP4CIFQWWcdhVqFUpr9E64eVg8p9s2VTXLh7m5tlMtIXYDBD\n" +
+            "-----END CERTIFICATE REQUEST-----";
+        document.getElementById("certChainPEM").value = "-----BEGIN CERTIFICATE-----\n" +
+            "MIICMzCCAdqgAwIBAgIQAdLXu9ndQDrXx/kBYertbTAKBggqhkjOPQQDAjA4MRIw\n" +
+            "EAYDVQQKEwlTbWFsbHN0ZXAxIjAgBgNVBAMTGVNtYWxsc3RlcCBJbnRlcm1lZGlh\n" +
+            "dGUgQ0EwHhcNMjYwMjIzMTgwODI4WhcNMjYwMjI0MTgwOTI4WjAWMRQwEgYDVQQD\n" +
+            "EwtleGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABEvQ6hVsx7AK\n" +
+            "22h1OoYEx8/eE5/kizqN0WwzJ4gW0HOipdZrQCZYSOTk9lVnfasjrw6wKjc8wxca\n" +
+            "OSKImkVe2UejgecwgeQwDgYDVR0PAQH/BAQDAgeAMB0GA1UdJQQWMBQGCCsGAQUF\n" +
+            "BwMBBggrBgEFBQcDAjAdBgNVHQ4EFgQUq50P4tzHKIT8krrfwMavt557QtkwHwYD\n" +
+            "VR0jBBgwFoAUghU6yba3Qq5hpiSJsZcrjvhL/mAwKAYDVR0RBCEwH4ILZXhhbXBs\n" +
+            "ZS5jb22BEHRlc3RAZXhhbXBsZS5jb20wSQYMKwYBBAGCpGTGKEABBDkwNwIBAQQF\n" +
+            "YWRtaW4EK3p2enRsVmVLY1F6VGNCVlRENUtFWmVVMTFrbXV4SVhzb3lUanZ2ZURC\n" +
+            "S0EwCgYIKoZIzj0EAwIDRwAwRAIgArbYiTKOc8ZcrGkNJtbJwn+axPRp4scnX498\n" +
+            "g07kgkMCIG6T30R3nwMBorRLluX4hzO/P0UI4BtkY047ErVljPBl\n" +
+            "-----END CERTIFICATE-----\n" +
+            "-----BEGIN CERTIFICATE-----\n" +
+            "MIIBzTCCAXKgAwIBAgIQWqPQCzxLlw5FNRMwzYhEqDAKBggqhkjOPQQDAjAwMRIw\n" +
+            "EAYDVQQKEwlTbWFsbHN0ZXAxGjAYBgNVBAMTEVNtYWxsc3RlcCBSb290IENBMB4X\n" +
+            "DTI2MDIyMjEyMDgwMloXDTM2MDIyMDEyMDgwMlowODESMBAGA1UEChMJU21hbGxz\n" +
+            "dGVwMSIwIAYDVQQDExlTbWFsbHN0ZXAgSW50ZXJtZWRpYXRlIENBMFkwEwYHKoZI\n" +
+            "zj0CAQYIKoZIzj0DAQcDQgAEtNTCHqN2cIM5Cwj1YbGt7qXW+m/DU/SGKPkLniH4\n" +
+            "8HYNEzDgnNSPHAc9zV6JsT9YBWyXy9ZrWBC0gTQKTBs+HaNmMGQwDgYDVR0PAQH/\n" +
+            "BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFIIVOsm2t0KuYaYk\n" +
+            "ibGXK474S/5gMB8GA1UdIwQYMBaAFP0q/JldAHn+oFcXJkBHPlOd+Zq6MAoGCCqG\n" +
+            "SM49BAMCA0kAMEYCIQD/uATJCGO8nlrV0NDUFbw4guDHIPEP66m4HhMtpk1wuwIh\n" +
+            "AP8r4+Zrg2hMuncH4sumHPrCmtJ/8pNoeuFetDOgmGRa\n" +
+            "-----END CERTIFICATE-----";
+
+        /**
+         * NOTE! This demo uses a single-file JS bundle which exposes a global object TinyPKIClientSideCertReqLib.
+         * For the ESM library usage, this has to be replaced with appropriate imports. Example:
+         *
+         * import {
+         *   base64ToBuffer,
+         *   exportKeyDERB64,
+         *   generateCSR,
+         *   generatePKCS12,
+         *   savePKCS12BufferAsFile
+         * } from "@icedevml/tinypki-client-side-cert-req";
+         *
+         * const keys = await crypto.subtle.generateKey(alg, true, ["sign", "verify"]);
+         * const privKeyDERB64 = exportKeyDERB64(keys.privateKey);
+         * // ...
+         *
+         * although the actual usage pattern is the same across both library formats.
+         */
+
+        async function makeCSR() {
+            const alg = {
+                name: "ECDSA",
+                namedCurve: "P-256",
+                hash: "SHA-256",
+            };
+
+            const keys = await crypto.subtle.generateKey(alg, true, ["sign", "verify"]);
+            const privKeyDERB64 = await TinyPKIClientSideCertReqLib.exportKeyDERB64(keys.privateKey);
+            const csrPEM = await TinyPKIClientSideCertReqLib.generateCSR({
+                commonName: "example.com",
+                subjectAltNames: ["email:test@example.com", "dns:example.com"],
+                keys: keys,
+                algorithm: alg,
+            });
+
+            document.getElementById("privateKeyDERB64").value = privKeyDERB64;
+            document.getElementById("csrPEM").value = csrPEM;
+            document.getElementById("certChainPEM").value = '';
+        }
+
+        async function makePKCS12() {
+            const privKeyDERB64 = document.getElementById("privateKeyDERB64").value;
+            const certChainPEM = document.getElementById("certChainPEM").value;
+
+            const alg = {
+                name: "ECDSA",
+                namedCurve: "P-256",
+                hash: "SHA-256",
+            };
+
+            const pkcs12B64 = await TinyPKIClientSideCertReqLib.generatePKCS12({
+                algorithm: alg,
+                certChainPEM: certChainPEM,
+                privKeyDERB64: privKeyDERB64,
+                pkcs12Password: "demodemo123!",
+                pkcs12Algorithm: "3des",
+            });
+
+            TinyPKIClientSideCertReqLib.savePKCS12BufferAsFile({
+                buffer: TinyPKIClientSideCertReqLib.base64ToBuffer(pkcs12B64),
+                targetName: "bundle.p12"
+            });
+        }
+    </script>
+
+    <hr>
+    <div class="mt-2">
+        <p class="text-muted">
+            Powered by <a href="https://github.com/icedevml/tinypki" style="text-decoration: none;">TinyPKI</a>.
+        </p>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+<script src="../dist/tinypki-client-side-cert-req-lib.js"></script>
+</body>
+</html>
