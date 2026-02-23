@@ -1,12 +1,10 @@
 name: Deploy Pages
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
   release:
     types: [ "created" ]
+
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -47,13 +45,14 @@ jobs:
         run: |
           yarn build
 
-      - name: Setup Pages
-        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
-
-      - name: Fix lib references
+      - name: Add library build to the demo dir
         run: |
+          cp dist/tinypki-client-side-cert-req-lib.js demo/tinypki-client-side-cert-req-lib.js
           cd demo/
           sed -i 's#../dist/tinypki-client-side-cert-req-lib.js#tinypki.js#' *.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4

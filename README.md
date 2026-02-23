@@ -6,6 +6,10 @@ A part of TinyPKI project, with the intention to facilitate higher adoption of m
 * Client-side PKCS#10 Certificate Signing Request (CSR) generation using Web Crypto API key pairs (supported: RSA/ECDSA/Ed25519);
 * Bundling PEM certificate chain and private key together into PKCS#12 container (`.P12` or `.PFX` file);
 
+## Demo
+
+See the **[library demo](https://icedevml.github.io/tinypki-client-side-cert-req/)** for further reference.
+
 ## Installation
 
 This library is distributed in two formats.
@@ -26,7 +30,7 @@ Download: **[tinypki-client-side-cert-req-lib.js](https://github.com/icedevml/ti
 
 ## Usage
 
-See [`demo/`](https://github.com/icedevml/tinypki-client-side-cert-req/tree/master/demo) directory for example usage.
+See [`demo/`](https://github.com/icedevml/tinypki-client-side-cert-req/tree/master/demo) directory for usage examples.
 
 ## Manual building
 
