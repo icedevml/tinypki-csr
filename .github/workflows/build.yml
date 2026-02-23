@@ -53,6 +53,12 @@ jobs:
         if: github.event_name == 'release'
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2
         with:
+          body: |
+            The file `tinypki-client-side-cert-req-lib.js` contains a single-file JavaScript bundle that could
+            be included in any HTML5 web page without any extra dependencies. The build was created automatically
+            using GitHub Actions and has the [artifact attestation](https://github.com/icedevml/tinypki-client-side-cert-req/attestations?q=tinypki-client-side-cert-req-lib.js) available.
+            
+            For the ESM library, see [@icedevml/tinypki-client-side-cert-req](https://www.npmjs.com/package/@icedevml/tinypki-client-side-cert-req) on npmjs.com.
           files: 'dist/tinypki-client-side-cert-req-lib.js'
 
       - name: Release NPM package
