@@ -1,6 +1,17 @@
 /**
- * Derived from:
+ * The saveBufferAsFile() was derived from the pkijs (PeculiarVentures/PKI.js) library:
  * https://github.com/PeculiarVentures/PKI.js/blob/1bb60c22567a8608f296a2d06ddc06bd2da7125e/examples/PKCS12SimpleExample/es6.ts#L9
+ *
+ * Original license: BSD-3 Clause License
+ * Full license statement is available here:
+ * https://github.com/PeculiarVentures/PKI.js/blob/1bb60c22567a8608f296a2d06ddc06bd2da7125e/LICENSE
+ *
+ * Original author/copyright:
+ *   Author 2014-2019, Yury Strozhevsky
+ *
+ *   Copyright (c) 2014, GlobalSign
+ *   Copyright (c) 2015-2019, Peculiar Ventures
+ *   All rights reserved.
  */
 
 interface ISavePKCS12BufferAsFileParams {

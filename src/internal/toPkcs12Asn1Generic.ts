@@ -1,9 +1,20 @@
 /**
- * Derived from:
+ * The toPkcs12Asn1Generic() function was derived from the node-forge (digitalbazaar/forge) library:
  * https://github.com/digitalbazaar/forge/blob/1cea0aff4901589ae86e314f25782bbe312f9f69/lib/pkcs12.js#L800
+ * I've hacked it around to support embedding arbitrary DER-encoded certificates and private keys
+ * regardless of their algorithm, as the original library was only accepting RSA certificates/keys.
  *
- * and hacked around to support embedding arbitrary DER-encoded certificates and private keys
- * regardless of their algorithm
+ * Original license: dual-licensed under BSD-3 Clause License and GPL Version 2, depending on the user's choice.
+ * This project opts to use the library on the terms of BSD-3 Claude License.
+ * Full license statement is available here:
+ * https://github.com/digitalbazaar/forge/blob/1cea0aff4901589ae86e314f25782bbe312f9f69/LICENSE
+ *
+ * Original author/copyright:
+ *   @author Dave Longley
+ *   @author Stefan Siegl <stesie@brokenpipe.de>
+ *
+ *   Copyright (c) 2010-2014 Digital Bazaar, Inc.
+ *   Copyright (c) 2012 Stefan Siegl <stesie@brokenpipe.de>
  */
 
 import {Buffer} from "buffer";
