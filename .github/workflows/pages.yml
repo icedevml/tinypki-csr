@@ -49,7 +49,7 @@ jobs:
         run: |
           cp dist/tinypki-client-side-cert-req-lib.js demo/tinypki-client-side-cert-req-lib.js
           cd demo/
-          sed -i 's#../dist/tinypki-client-side-cert-req-lib.js#tinypki.js#' *.html
+          sed -i 's#../dist/tinypki-client-side-cert-req-lib.js#tinypki-client-side-cert-req-lib.js#' *.html
 
       - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
